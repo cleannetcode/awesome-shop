@@ -10,8 +10,6 @@ namespace AwesomeShop.BusinessLogic.Accounts.Interfaces
     {
         Task CreateUserAsync(User user, CancellationToken cancellationToken = default);
 
-        Task CheckPasswordAsync(User user, string passwordHash, CancellationToken cancellationToken = default);
-
         Task<User> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default);
 
         Task<User> GetUserByNameAsync(string username, CancellationToken cancellationToken = default);

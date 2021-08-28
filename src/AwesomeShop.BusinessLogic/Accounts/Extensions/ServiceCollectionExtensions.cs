@@ -12,6 +12,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<ITokenService, TokenService>()
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<IUserClaimsFactory, UserClaimsFactory>()
-                .AddSingleton<IHasher, Hasher>();
+                .AddSingleton<IHasher, Hasher>()
+                .AddScoped<IUserCommonRepository, UserCommonRepository>();
     }
 }

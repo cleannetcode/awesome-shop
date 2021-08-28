@@ -1,13 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using AwesomeShop.BusinessLogic.Accounts.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+        private readonly IHasher _hasher;
+
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHasher hasher)
             : base(options)
         {
+            _hasher = hasher;
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -72,22 +77,7 @@ namespace AwesomeShop.Data
                     .HasMaxLength(45);
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.BirthDate).HasColumnType("date");
-
-                entity.Property(e => e.Nickname)
-                    .IsRequired()
-                    .HasMaxLength(500);
-
-                entity.Property(e => e.RoleId).HasColumnName("RoleID");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Members)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Members_Roles");
-            });
+            
 
             modelBuilder.Entity<Product>(entity =>
             {
@@ -121,13 +111,64 @@ namespace AwesomeShop.Data
                     .HasMaxLength(25);
             });
 
+            var testData = new TestData(_hasher);
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
+
+                entity.HasData(testData.AdminRole, testData.MemberRole);
+            });
+            
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.BirthDate).HasColumnType("date");
+
+                entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Members_Roles");
+
+                entity.HasData(testData.Admin);
             });
         }
 
+    }
+
+    public class TestData
+    {
+        public User Admin { get; }
+        
+        public Role AdminRole { get; }
+        
+        public Role MemberRole { get; }
+
+        public TestData(IHasher hasher)
+        {
+            AdminRole = new()
+            {
+                Name = "Admin",
+                Id = Guid.NewGuid()
+            };
+            
+            MemberRole = new()
+            {
+                Name = "Member",
+                Id = Guid.NewGuid()
+            };
+
+            Admin = new()
+            {
+                Id = Guid.NewGuid(),
+                BirthDate = new(2000, 1, 1),
+                Username = "admin",
+                RoleId = AdminRole.Id
+            };
+            Admin.PasswordHash = hasher.HashPassword(Admin, "password");
+        }
     }
 }

@@ -1,4 +1,5 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
 using AwesomeShop.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,6 +46,10 @@ namespace AwesomeShop.Api
                     _configuration.Bind(TokenIssuerOptions.Section, tokenOptions);
                     options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenOptions.Secret));
                 });
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Default", builder => builder.RequireAuthenticatedUser());
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -59,6 +64,7 @@ namespace AwesomeShop.Api
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

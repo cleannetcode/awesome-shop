@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -26,16 +27,14 @@ namespace AwesomeShop.BusinessLogic.Accounts.Services
         public async Task<AuthenticationResponse> CreateAuthenticationResponseAsync(User user, CancellationToken cancellationToken = default)
         {
             var options = _optionsHandler.Value;
-            var tokenHandler = new JwtSecurityTokenHandler();
-            var key = Encoding.ASCII.GetBytes(options.Secret);
-            var tokenDescriptor = new SecurityTokenDescriptor
-            {
-                Subject = new(await _factory.GetClaimsAsync(user), JwtBearerDefaults.AuthenticationScheme),
-                Expires = DateTime.UtcNow.AddDays(7),
-                SigningCredentials = new(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-            };
-            var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-            var accessToken = tokenHandler.WriteToken(securityToken);
+            var tokenDescriptor = new JwtSecurityToken(
+                issuer: "http://localhost:5000",
+                audience: "http://localhost:5000",
+                notBefore: DateTime.UtcNow,
+                claims: new ClaimsIdentity(await _factory.GetClaimsAsync(user), JwtBearerDefaults.AuthenticationScheme).Claims,
+                expires: DateTime.UtcNow.Add(TimeSpan.FromDays(7)),
+                signingCredentials: new(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(options.Secret)), SecurityAlgorithms.HmacSha256));
+            var accessToken = new JwtSecurityTokenHandler().WriteToken(tokenDescriptor);
             return new() { AccessToken = accessToken, UserId = user.Id};
         }
     }

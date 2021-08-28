@@ -41,6 +41,8 @@ namespace AwesomeShop.BusinessLogic.Accounts.Services
         public async Task<AuthenticationResponse> LoginAsync(LoginRequest model, CancellationToken cancellationToken = default)
         {
             var user = await _repository.GetUserByNameAsync(model.Username, cancellationToken);
+            if (user is not null)
+                return new() { IsSuccess = false };
             var hash = _hasher.HashPassword(user, model.Password);
             if (hash != user.PasswordHash)
                 return new() { IsSuccess = false };

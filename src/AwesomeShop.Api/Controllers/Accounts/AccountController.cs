@@ -50,7 +50,12 @@ namespace AwesomeShop.Api.Controllers
         public async Task<IActionResult> GetMe(CancellationToken cancellationToken = default)
         {
             var user = await _userService.GetMeAsync(User, cancellationToken);
-            return Ok(user);
+            var response = new UserResponse
+            {
+                Username = user.Username, BirthDate = user.BirthDate,
+                Id = user.Id, RoleId = user.RoleId, RoleName = user.Username
+            };
+            return Ok(response);
         }
     }
 }
