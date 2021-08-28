@@ -7,10 +7,9 @@ namespace AwesomeShop.Data.Models
 {
     public class Category
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-        
+        public Guid Id { get; set; }
         public string Name { get; set; }
 
-        public List<Product> Products { get; set; } = new();
+        public List<Product> Products { get; set; }
     }
 }
