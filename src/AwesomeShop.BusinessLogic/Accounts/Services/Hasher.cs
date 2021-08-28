@@ -3,6 +3,7 @@ using System.Security.Cryptography;
 using System.Text;
 using AwesomeShop.BusinessLogic.Accounts.Interfaces;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
+using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.BusinessLogic.Accounts.Services
 {

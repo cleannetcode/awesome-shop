@@ -8,6 +8,7 @@ using AwesomeShop.BusinessLogic.Accounts.Requests;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.BusinessLogic.Accounts.Services
 {
@@ -35,7 +36,7 @@ namespace AwesomeShop.BusinessLogic.Accounts.Services
             };
             var securityToken = tokenHandler.CreateToken(tokenDescriptor);
             var accessToken = tokenHandler.WriteToken(securityToken);
-            return new() { AccessToken = accessToken, UserId = user.Id };
+            return new() { AccessToken = accessToken, UserId = user.Id};
         }
     }
 }

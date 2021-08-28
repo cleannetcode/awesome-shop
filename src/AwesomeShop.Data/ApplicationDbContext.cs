@@ -5,10 +5,6 @@ namespace AwesomeShop.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        public ApplicationDbContext()
-        {
-        }
-
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -110,30 +106,12 @@ namespace AwesomeShop.Data
 
             modelBuilder.Entity<Order>(entity =>
             {
-
-                entity.Property(e => e.ManufacturerId).HasColumnName("ManufacturerID");
-
-                entity.Property(e => e.MemberId).HasColumnName("MemberID");
-
-                entity.Property(e => e.ProductId).HasColumnName("ProductID");
-
-                entity.HasOne(d => d.Manufacturer)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.ManufacturerId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Orders_Manufacturers");
-
                 entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.MemberId)
+                    .HasForeignKey(d => d.UserId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Members");
 
-                entity.HasOne(d => d.Product)
-                    .WithMany(p => p.Orders)
-                    .HasForeignKey(d => d.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Orders_Products");
             });
 
             modelBuilder.Entity<Category>(entity =>
@@ -145,7 +123,7 @@ namespace AwesomeShop.Data
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.RoleName)
+                entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
             });
