@@ -12,13 +12,13 @@ namespace AwesomeShop.BusinessLogic.Accounts.Services
         public Task<List<Claim>> GetClaimsAsync(User user)
         {
             var role = user.Role.Name;
-            var claims = new List<Claim>()
+            var claims = new List<Claim>
             {
                 new(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new(ClaimTypes.Name, user.Username),               
+                new(ClaimTypes.Name, user.Username),
+                new(ClaimTypes.Role, role),
+                new(ClaimTypes.Role, user.RoleId.ToString())
             };
-            var newClaim = new Claim(type: ClaimTypes.Role, value: role);
-            claims.Add(newClaim);
             return Task.FromResult(claims);
         }
     }

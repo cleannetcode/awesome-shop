@@ -1,5 +1,4 @@
-﻿using System;
-using AwesomeShop.BusinessLogic.Accounts.Interfaces;
+﻿using AwesomeShop.BusinessLogic.Accounts.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AwesomeShop.Data.Models;
 
@@ -137,38 +136,5 @@ namespace AwesomeShop.Data
             });
         }
 
-    }
-
-    public class TestData
-    {
-        public User Admin { get; }
-        
-        public Role AdminRole { get; }
-        
-        public Role MemberRole { get; }
-
-        public TestData(IHasher hasher)
-        {
-            AdminRole = new()
-            {
-                Name = "Admin",
-                Id = Guid.NewGuid()
-            };
-            
-            MemberRole = new()
-            {
-                Name = "Member",
-                Id = Guid.NewGuid()
-            };
-
-            Admin = new()
-            {
-                Id = Guid.NewGuid(),
-                BirthDate = new(2000, 1, 1),
-                Username = "admin",
-                RoleId = AdminRole.Id
-            };
-            Admin.PasswordHash = hasher.HashPassword(Admin, "password");
-        }
     }
 }
