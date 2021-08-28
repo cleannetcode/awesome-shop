@@ -13,6 +13,7 @@ namespace AwesomeShop.Api
         public static IHostBuilder CreateHostBuilder(string[] args)
         {
             return Host.CreateDefaultBuilder(args)
+                .UseDefaultServiceProvider(configure => configure.ValidateOnBuild = false)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
