@@ -1,17 +1,13 @@
-﻿using AwesomeShop.BusinessLogic.Accounts.Interfaces;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.Data
 {
     public class ApplicationDbContext : DbContext
     {
-        private readonly IHasher _hasher;
-
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IHasher hasher)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
-            _hasher = hasher;
         }
 
         public DbSet<Category> Categories { get; set; }
@@ -76,7 +72,22 @@ namespace AwesomeShop.Data
                     .HasMaxLength(45);
             });
 
-            
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.Property(e => e.BirthDate).HasColumnType("date");
+
+                entity.Property(e => e.Nickname)
+                    .IsRequired()
+                    .HasMaxLength(500);
+
+                entity.Property(e => e.RoleId).HasColumnName("RoleID");
+
+                entity.HasOne(d => d.Role)
+                    .WithMany(p => p.Members)
+                    .HasForeignKey(d => d.RoleId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Members_Roles");
+            });
 
             modelBuilder.Entity<Product>(entity =>
             {
@@ -110,29 +121,11 @@ namespace AwesomeShop.Data
                     .HasMaxLength(25);
             });
 
-            var testData = new TestData(_hasher);
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(50);
-
-                entity.HasData(testData.AdminRole, testData.MemberRole);
-            });
-            
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.Property(e => e.BirthDate).HasColumnType("date");
-
-                entity.Property(e => e.RoleId).HasColumnName("RoleID");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.Users)
-                    .HasForeignKey(d => d.RoleId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Members_Roles");
-
-                entity.HasData(testData.Admin);
             });
         }
 

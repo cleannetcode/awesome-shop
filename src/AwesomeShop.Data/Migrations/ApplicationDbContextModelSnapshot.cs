@@ -112,12 +112,17 @@ namespace AwesomeShop.Data.Migrations
                     b.Property<Guid?>("ManufacturerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid?>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ManufacturerId");
+
+                    b.HasIndex("ProductId");
 
                     b.HasIndex("UserId");
 
@@ -188,18 +193,6 @@ namespace AwesomeShop.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Roles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("b4a87d46-f7bf-4339-8223-a3ce07ede3c1"),
-                            Name = "Admin"
-                        },
-                        new
-                        {
-                            Id = new Guid("75ad3dca-3eda-4086-8672-992a26016a68"),
-                            Name = "Member"
-                        });
                 });
 
             modelBuilder.Entity("AwesomeShop.Data.Models.User", b =>
@@ -210,6 +203,11 @@ namespace AwesomeShop.Data.Migrations
 
                     b.Property<DateTime>("BirthDate")
                         .HasColumnType("date");
+
+                    b.Property<string>("Nickname")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("PasswordHash")
                         .HasColumnType("nvarchar(max)");
@@ -226,16 +224,6 @@ namespace AwesomeShop.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("Members");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("146c287c-7695-4e5f-873d-7a929e60e085"),
-                            BirthDate = new DateTime(2000, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            PasswordHash = "D8F5B03A6DECC5258D84C441609B3998B5A959950075E577BA96138574CBDE75",
-                            RoleId = new Guid("b4a87d46-f7bf-4339-8223-a3ce07ede3c1"),
-                            Username = "admin"
-                        });
                 });
 
             modelBuilder.Entity("CategoryProduct", b =>
@@ -251,6 +239,21 @@ namespace AwesomeShop.Data.Migrations
                     b.HasIndex("ProductsId");
 
                     b.ToTable("CategoryProduct");
+                });
+
+            modelBuilder.Entity("ProductUser", b =>
+                {
+                    b.Property<Guid>("MembersId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("ProductsId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("MembersId", "ProductsId");
+
+                    b.HasIndex("ProductsId");
+
+                    b.ToTable("ProductUser");
                 });
 
             modelBuilder.Entity("AwesomeShop.Data.Models.DeliveryCountry", b =>
@@ -275,6 +278,10 @@ namespace AwesomeShop.Data.Migrations
                     b.HasOne("AwesomeShop.Data.Models.Manufacturer", null)
                         .WithMany("Orders")
                         .HasForeignKey("ManufacturerId");
+
+                    b.HasOne("AwesomeShop.Data.Models.Product", null)
+                        .WithMany("Orders")
+                        .HasForeignKey("ProductId");
 
                     b.HasOne("AwesomeShop.Data.Models.User", "User")
                         .WithMany("Orders")
@@ -307,7 +314,7 @@ namespace AwesomeShop.Data.Migrations
             modelBuilder.Entity("AwesomeShop.Data.Models.User", b =>
                 {
                     b.HasOne("AwesomeShop.Data.Models.Role", "Role")
-                        .WithMany("Users")
+                        .WithMany("Members")
                         .HasForeignKey("RoleId")
                         .HasConstraintName("FK_Members_Roles")
                         .IsRequired();
@@ -320,6 +327,21 @@ namespace AwesomeShop.Data.Migrations
                     b.HasOne("AwesomeShop.Data.Models.Category", null)
                         .WithMany()
                         .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("AwesomeShop.Data.Models.Product", null)
+                        .WithMany()
+                        .HasForeignKey("ProductsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ProductUser", b =>
+                {
+                    b.HasOne("AwesomeShop.Data.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("MembersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -345,11 +367,13 @@ namespace AwesomeShop.Data.Migrations
             modelBuilder.Entity("AwesomeShop.Data.Models.Product", b =>
                 {
                     b.Navigation("DeliveryCountries");
+
+                    b.Navigation("Orders");
                 });
 
             modelBuilder.Entity("AwesomeShop.Data.Models.Role", b =>
                 {
-                    b.Navigation("Users");
+                    b.Navigation("Members");
                 });
 
             modelBuilder.Entity("AwesomeShop.Data.Models.User", b =>

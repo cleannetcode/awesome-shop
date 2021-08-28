@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 namespace AwesomeShop.Api
 {
@@ -44,10 +45,6 @@ namespace AwesomeShop.Api
                     _configuration.Bind(TokenIssuerOptions.Section, tokenOptions);
                     options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenOptions.Secret));
                 });
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Default", builder => builder.RequireAuthenticatedUser());
-            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -62,7 +59,6 @@ namespace AwesomeShop.Api
 
             app.UseRouting();
 
-            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
