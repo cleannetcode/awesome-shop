@@ -9,9 +9,8 @@ namespace AwesomeShop.Data.Models
     {
 
         public Guid Id { get; set; }
-        public string RoleName { get; set; }
-
-        public List<User> Members { get; set; }
         public string Name { get; set; }
+        
+        public List<User> Members { get; set; }
     }
 }
