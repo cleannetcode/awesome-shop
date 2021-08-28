@@ -8,7 +8,7 @@ namespace AwesomeShop.BusinessLogic.Accounts.Interfaces
 {
     public interface IUserService
     {
-        Task<AuthenticationResponse> RegisterAsync(RegisterRequest model, CancellationToken cancellationToken = default);
+        Task<AuthenticationResponse> RegisterMemberAsync(RegisterRequest model, CancellationToken cancellationToken = default);
 
         Task<AuthenticationResponse> LoginAsync(LoginRequest model, CancellationToken cancellationToken = default);
 

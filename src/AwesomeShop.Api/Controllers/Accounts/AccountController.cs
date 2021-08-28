@@ -24,7 +24,7 @@ namespace AwesomeShop.Api.Controllers
         [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Register(RegisterRequest request, CancellationToken cancellationToken = default)
         {
-            var response = await _userService.RegisterAsync(request, cancellationToken);
+            var response = await _userService.RegisterMemberAsync(request, cancellationToken);
 
             if (!response.IsSuccess)
                 return BadRequest(new { message = "Username or password is incorrect" });
@@ -50,7 +50,12 @@ namespace AwesomeShop.Api.Controllers
         public async Task<IActionResult> GetMe(CancellationToken cancellationToken = default)
         {
             var user = await _userService.GetMeAsync(User, cancellationToken);
-            return Ok(user);
+            var response = new UserResponse
+            {
+                Username = user.Username, BirthDate = user.BirthDate,
+                Id = user.Id, RoleId = user.RoleId, RoleName = user.Username
+            };
+            return Ok(response);
         }
     }
 }

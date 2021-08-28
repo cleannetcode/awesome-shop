@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Buffers.Text;
-using System.Linq;
-using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AwesomeShop.BusinessLogic.Accounts.Interfaces;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
+using AwesomeShop.Data;
 using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.BusinessLogic.Accounts.Services
@@ -24,23 +22,29 @@ namespace AwesomeShop.BusinessLogic.Accounts.Services
             _hasher = hasher;
         }
 
-        public async Task<AuthenticationResponse> RegisterAsync(RegisterRequest request, CancellationToken cancellationToken = default)
+        public async Task<AuthenticationResponse> RegisterMemberAsync(RegisterRequest request,
+            CancellationToken cancellationToken = default)
         {
             var duplicate = await _repository.GetUserByNameAsync(request.Username, cancellationToken);
             if (duplicate is not null)
                 return new() { IsSuccess = false };
             var user = new User
             {
-                Username = request.Username
+                Id = Guid.NewGuid(),
+                Username = request.Username,
+                RoleId = IdManager.AdminRoleId
             };
             user.PasswordHash = _hasher.HashPassword(user, request.Password);
             await _repository.CreateUserAsync(user, cancellationToken);
+            user = await _repository.GetUserByIdAsync(user.Id, cancellationToken);
             return await _tokenService.CreateAuthenticationResponseAsync(user, cancellationToken);
         }
 
         public async Task<AuthenticationResponse> LoginAsync(LoginRequest model, CancellationToken cancellationToken = default)
         {
             var user = await _repository.GetUserByNameAsync(model.Username, cancellationToken);
+            if (user is null)
+                return new() { IsSuccess = false };
             var hash = _hasher.HashPassword(user, model.Password);
             if (hash != user.PasswordHash)
                 return new() { IsSuccess = false };

@@ -2,7 +2,6 @@
 using System.Security.Cryptography;
 using System.Text;
 using AwesomeShop.BusinessLogic.Accounts.Interfaces;
-using AwesomeShop.BusinessLogic.Accounts.Requests;
 using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.BusinessLogic.Accounts.Services
@@ -11,13 +10,8 @@ namespace AwesomeShop.BusinessLogic.Accounts.Services
     {
         public string HashPassword(User user, string password)
         {
-            using var hmacsha256 = new HMACSHA256();
-            var hashBytes = hmacsha256.ComputeHash(Encoding.UTF8.GetBytes(password + user.Username));
-            
-            for (var i = 0; i < 1_000; i++)
-            {
-                hashBytes = hmacsha256.ComputeHash(hashBytes);
-            }
+            using var alg = SHA256.Create();
+            var hashBytes = alg.ComputeHash(Encoding.UTF8.GetBytes(password + user.Username));
 
             return Convert.ToHexString(hashBytes);
         }
