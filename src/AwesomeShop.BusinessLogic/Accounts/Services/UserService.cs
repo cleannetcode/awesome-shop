@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Buffers.Text;
-using System.Linq;
-using System.Runtime.Intrinsics.Arm;
 using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,13 +22,14 @@ namespace AwesomeShop.BusinessLogic.Accounts.Services
             _hasher = hasher;
         }
 
-        public async Task<AuthenticationResponse> RegisterMemberAsync(RegisterRequest request, CancellationToken cancellationToken = default)
+        public async Task<AuthenticationResponse> RegisterMemberAsync(RegisterRequest request,
+            CancellationToken cancellationToken = default)
         {
             var duplicate = await _repository.GetUserByNameAsync(request.Username, cancellationToken);
             if (duplicate is not null)
                 return new() { IsSuccess = false };
             var user = new User
-            {   
+            {
                 Id = Guid.NewGuid(),
                 Username = request.Username,
                 RoleId = IdManager.AdminRoleId

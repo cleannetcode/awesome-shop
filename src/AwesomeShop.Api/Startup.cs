@@ -1,5 +1,4 @@
 using System.Text;
-using System.Text.Json.Serialization;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
 using AwesomeShop.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -10,7 +9,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 
 namespace AwesomeShop.Api
 {
