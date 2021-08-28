@@ -22,20 +22,10 @@ namespace AwesomeShop.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<Role> Roles { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server=(LocalDB)\\MSSQLLocalDB;Database=Shop;Trusted_Connection=True;");
-            }
-        }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("Id");
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(25);
@@ -71,8 +61,6 @@ namespace AwesomeShop.Data
 
             modelBuilder.Entity<Manufacturer>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
                 entity.Property(e => e.City)
                     .IsRequired()
                     .HasMaxLength(35);
@@ -90,13 +78,11 @@ namespace AwesomeShop.Data
 
             modelBuilder.Entity<User>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
                 entity.Property(e => e.BirthDate).HasColumnType("date");
 
                 entity.Property(e => e.Nickname)
                     .IsRequired()
-                    .HasMaxLength(15);
+                    .HasMaxLength(500);
 
                 entity.Property(e => e.RoleId).HasColumnName("RoleID");
 
@@ -109,8 +95,6 @@ namespace AwesomeShop.Data
 
             modelBuilder.Entity<Product>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
                 entity.Property(e => e.Cost).HasColumnType("money");
 
                 entity.Property(e => e.Description).IsRequired();
@@ -126,7 +110,6 @@ namespace AwesomeShop.Data
 
             modelBuilder.Entity<Order>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.ManufacturerId).HasColumnName("ManufacturerID");
 
@@ -140,7 +123,7 @@ namespace AwesomeShop.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Orders_Manufacturers");
 
-                entity.HasOne(d => d.Member)
+                entity.HasOne(d => d.User)
                     .WithMany(p => p.Orders)
                     .HasForeignKey(d => d.MemberId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
@@ -155,8 +138,6 @@ namespace AwesomeShop.Data
 
             modelBuilder.Entity<Category>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("Id");
-
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(25);
@@ -164,16 +145,11 @@ namespace AwesomeShop.Data
 
             modelBuilder.Entity<Role>(entity =>
             {
-                entity.Property(e => e.Id).HasColumnName("ID");
-
                 entity.Property(e => e.RoleName)
                     .IsRequired()
                     .HasMaxLength(50);
             });
-
-
         }
-
 
     }
 }

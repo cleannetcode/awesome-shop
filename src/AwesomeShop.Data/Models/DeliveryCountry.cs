@@ -1,12 +1,14 @@
 ﻿#nullable disable
 
+using System;
+
 namespace AwesomeShop.Data.Models
 {
     public class DeliveryCountry
     {
-        public int Id { get; set; }
-        public int? ProductId { get; set; }
-        public int? ManufacturerId { get; set; }
+        public Guid Id { get; set; }
+        public Guid? ProductId { get; set; }
+        public Guid? ManufacturerId { get; set; }
         public string CountryName { get; set; }
 
         public Manufacturer Manufacturer { get; set; }

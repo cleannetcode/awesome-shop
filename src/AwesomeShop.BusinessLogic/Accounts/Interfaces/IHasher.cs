@@ -4,6 +4,6 @@ namespace AwesomeShop.BusinessLogic.Accounts.Interfaces
 {
     public interface IHasher
     {
-        string HashPassword(User user, string password);
+        string HashPassword(AwesomeShop.Data.Models.User user, string password);
     }
 }

@@ -1,17 +1,17 @@
 ﻿#nullable disable
 
+using System;
+using System.Collections.Generic;
+
 namespace AwesomeShop.Data.Models
 {
     public class Order
     {
-        public int Id { get; set; }
-        public int CountOfProducts { get; set; }
-        public int MemberId { get; set; }
-        public int ProductId { get; set; }
-        public int ManufacturerId { get; set; }
-
-        public Manufacturer Manufacturer { get; set; }
-        public User Member { get; set; }
-        public Product Product { get; set; }
+        public Guid Id { get; set; }
+        public DateTime CreationDate { get; set; }
+        public string Address { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
+        public List<ProductOrder> ProductOrders { get; set; }
     }
 }
