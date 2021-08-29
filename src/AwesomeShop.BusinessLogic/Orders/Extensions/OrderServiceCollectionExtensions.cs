@@ -6,6 +6,8 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class OrderServiceCollectionExtensions
     {
         public static IServiceCollection AddOrdersServices(this IServiceCollection serviceCollection) =>
-            serviceCollection.AddScoped<IOrderVisualizer, OrderVisualizer>();
+            serviceCollection
+                .AddScoped<IOrderVisualizer, OrderVisualizer>()
+                .AddScoped<IOrderService, OrderService>();
     }
 }
