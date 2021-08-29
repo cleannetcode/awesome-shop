@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
                 .AddScoped<IUserService, UserService>()
                 .AddScoped<IUserClaimsFactory, UserClaimsFactory>()
                 .AddSingleton<IHasher, Hasher>()
-                .AddScoped<IUserCommonRepository, UserCommonRepository>();
+                .AddScoped<IUserCommonRepository, UserCommonRepository>()
+                .AddScoped<IAdminService, AdminService>();
     }
 }

@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AwesomeShop.BusinessLogic.Accounts.Interfaces;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
+using AwesomeShop.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +25,7 @@ namespace AwesomeShop.Api.Controllers
         [ProducesResponseType(typeof(AuthenticationResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Register(RegisterRequest request, CancellationToken cancellationToken = default)
         {
-            var response = await _userService.RegisterMemberAsync(request, cancellationToken);
+            var response = await _userService.RegisterAsync(request, IdManager.MemberRoleId, cancellationToken);
 
             if (!response.IsSuccess)
                 return BadRequest(new { message = "Username or password is incorrect" });

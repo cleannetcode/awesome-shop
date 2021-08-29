@@ -1,14 +1,16 @@
-﻿using System.Security.Claims;
+﻿using System;
+using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
+using AwesomeShop.Data;
 using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.BusinessLogic.Accounts.Interfaces
 {
     public interface IUserService
     {
-        Task<AuthenticationResponse> RegisterMemberAsync(RegisterRequest model, CancellationToken cancellationToken = default);
+        Task<AuthenticationResponse> RegisterAsync(RegisterRequest model, Guid roleId,CancellationToken cancellationToken = default);
 
         Task<AuthenticationResponse> LoginAsync(LoginRequest model, CancellationToken cancellationToken = default);
 
