@@ -7,6 +7,6 @@ namespace AwesomeShop.BusinessLogic.Orders.Interfaces
 {
     public interface IOrderService
     {
-        public Task<OrderViewModel> CreateAsync(Guid userId, NewOrderRequest newOrderRequest);
+        public Task<OrderResponse> CreateAsync(Guid userId, NewOrderRequest newOrderRequest);
     }
 }

@@ -24,7 +24,7 @@ namespace AwesomeShop.Api.Controllers.Orders
 
         [Authorize]
         [HttpPost("create")]
-        [ProducesResponseType(typeof(OrderViewModel), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(NewOrderRequest newOrderRequest, CancellationToken cancellationToken = default)
         {
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);

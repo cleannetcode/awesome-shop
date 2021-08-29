@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace AwesomeShop.BusinessLogic.Orders.Responses
 {
-    public class OrderViewModel
+    public class OrderResponse
     {
         public Guid Id { get; set; }
         public Guid CreatedUserId { get; set; }

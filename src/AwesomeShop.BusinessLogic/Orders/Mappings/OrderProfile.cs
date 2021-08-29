@@ -8,7 +8,7 @@ namespace AwesomeShop.BusinessLogic.Orders.Mappings
     {
         public OrderProfile()
         {
-            CreateMap<NewOrderRequest, OrderViewModel>().ReverseMap();
+            CreateMap<NewOrderRequest, OrderResponse>().ReverseMap();
         }
     }
 }
