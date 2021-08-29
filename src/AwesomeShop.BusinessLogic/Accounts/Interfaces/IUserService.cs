@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
-using AwesomeShop.Data;
 using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.BusinessLogic.Accounts.Interfaces

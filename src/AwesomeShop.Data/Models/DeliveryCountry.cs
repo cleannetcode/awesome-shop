@@ -8,7 +8,7 @@ namespace AwesomeShop.Data.Models
     {
         public Guid Id { get; set; } = Guid.NewGuid();
         
-        public Guid? ProductId { get; set; }
+        public Guid ProductId { get; set; }
         
         public Guid ManufacturerId { get; set; }
         
