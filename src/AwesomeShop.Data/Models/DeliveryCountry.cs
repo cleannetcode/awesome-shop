@@ -10,7 +10,7 @@ namespace AwesomeShop.Data.Models
         
         public Guid? ProductId { get; set; }
         
-        public Guid? ManufacturerId { get; set; }
+        public Guid ManufacturerId { get; set; }
         
         public string CountryName { get; set; }
 

@@ -35,9 +35,6 @@ namespace AwesomeShop.Data
             {
                 entity.ToTable("DeliveryCountry");
 
-                entity.HasIndex(e => e.CountryName, "UQ__Delivery__E056F20110CD0BBF")
-                    .IsUnique();
-
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.CountryName)
@@ -90,7 +87,9 @@ namespace AwesomeShop.Data
                     .IsRequired()
                     .HasMaxLength(25);
 
-                entity.HasMany(product => product.Categories).WithMany(category => category.Products);
+                entity
+                    .HasMany(product => product.Categories)
+                    .WithMany(category => category.Products);
             });
 
             modelBuilder.Entity<Order>(entity =>
@@ -110,7 +109,7 @@ namespace AwesomeShop.Data
                     .HasMaxLength(25);
             });
 
-            var testData = new TestData(_hasher);
+            var testData = new InitializationData(_hasher);
             modelBuilder.Entity<Role>(entity =>
             {
                 entity.Property(e => e.Name)
