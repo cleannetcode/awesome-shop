@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using AwesomeShop.Api.Contracts;
 using AwesomeShop.BusinessLogic.Accounts.Interfaces;
 using AwesomeShop.BusinessLogic.Orders.Other;
 using AwesomeShop.BusinessLogic.Orders.Responses;
@@ -22,12 +23,15 @@ namespace AwesomeShop.BusinessLogic.Orders.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<OrderViewModel> CreateAsync(Guid userId, List<DeliveryCountryAmount> deliveryCountries)
+        public async Task<OrderViewModel> CreateAsync(Guid userId, NewOrderRequest newOrderRequest)
         {
-            if (deliveryCountries?.Count == 0)
+            if (newOrderRequest == null)
+                throw new ArgumentNullException(nameof(newOrderRequest), "Can't create empty order");
+
+            if (newOrderRequest.DeliveryCountries?.Count == 0)
                 throw new ArgumentException("Can't create order without products");
 
-            var productOrders = deliveryCountries.Select(x => new ProductOrder
+            var productOrders = newOrderRequest.DeliveryCountries.Select(x => new ProductOrder
             {
                 DeliveryCountryId = x.DeliveryCountryId,
                 Amount = x.Amount

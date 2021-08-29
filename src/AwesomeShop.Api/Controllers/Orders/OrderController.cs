@@ -1,5 +1,4 @@
 ﻿using AwesomeShop.Api.Contracts;
-using AwesomeShop.BusinessLogic.Accounts.Interfaces;
 using AwesomeShop.BusinessLogic.Orders.Interfaces;
 using AwesomeShop.BusinessLogic.Orders.Responses;
 using Microsoft.AspNetCore.Authorization;
@@ -10,7 +9,7 @@ using System.Security.Claims;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace AwesomeShop.Api.Controllers
+namespace AwesomeShop.Api.Controllers.Orders
 {
     [ApiController]
     [Route("api/v1/orders")]
@@ -26,11 +25,11 @@ namespace AwesomeShop.Api.Controllers
         [Authorize]
         [HttpPost("create")]
         [ProducesResponseType(typeof(OrderViewModel), StatusCodes.Status200OK)]
-        public async Task<IActionResult> Create(NewOrderRequest newOrder, CancellationToken cancellationToken = default)
+        public async Task<IActionResult> Create(NewOrderRequest newOrderRequest, CancellationToken cancellationToken = default)
         {
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            var createdOrder = await _orderService.CreateAsync(userId, newOrder.DeliveryCountries);
+            var createdOrder = await _orderService.CreateAsync(userId, newOrderRequest);
 
             return Ok(createdOrder);
         }

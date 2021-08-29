@@ -7,5 +7,6 @@ namespace AwesomeShop.Api.Contracts
     public class NewOrderRequest
     {
         public List<DeliveryCountryAmount> DeliveryCountries { get; set; }
+        public string Address { get; set; }
     }
 }
