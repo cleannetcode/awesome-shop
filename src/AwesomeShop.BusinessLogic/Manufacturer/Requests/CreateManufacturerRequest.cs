@@ -8,6 +8,6 @@ namespace AwesomeShop.BusinessLogic.Manufacturer.Requests
 {
     public class CreateManufacturerRequest
     {
-
+        public Guid Id { get; set; } = Guid.NewGuid();
     }
 }

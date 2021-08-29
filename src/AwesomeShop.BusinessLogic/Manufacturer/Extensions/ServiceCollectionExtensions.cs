@@ -1,9 +1,9 @@
-﻿using AwesomeShop.BusinessLogic.DeliveryCountry.Services;
-using AwesomeShop.BusinessLogic.Manufacturer.Interfaces;
+﻿using AwesomeShop.BusinessLogic.Manufacturer.Interfaces;
+using AwesomeShop.BusinessLogic.Manufacturer.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Sieve.Services;
 
-namespace AwesomeShop.BusinessLogic.DeliveryCountry.Extensions
+namespace AwesomeShop.BusinessLogic.Manufacturer.Extensions
 {
     public static class ServiceCollectionExtensions
     {
