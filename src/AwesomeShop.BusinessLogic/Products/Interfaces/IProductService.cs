@@ -12,6 +12,10 @@ namespace AwesomeShop.BusinessLogic.Products.Interfaces
         
         Task<ProductViewModel> FindByIdProductAsync(Guid id, CancellationToken cancellationToken = default);
 
+        Task<ProductImage> FindImageByIdAsync(Guid id, CancellationToken cancellationToken = default);
+        
+        Task AddImageByIdAsync(Guid id, ProductImage image, CancellationToken cancellationToken = default);
+
         Task CreateProductAsync(CreateProductRequest request, CancellationToken cancellationToken = default);
 
         Task UpdateProductAsync(Guid productId, UpdateProductRequest request, CancellationToken cancellationToken);

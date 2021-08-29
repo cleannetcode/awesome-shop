@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace AwesomeShop.BusinessLogic.Products.Requests
 {
@@ -19,11 +20,11 @@ namespace AwesomeShop.BusinessLogic.Products.Requests
 
         [MinLength(1)]
         public List<Guid> CategoryIds { get; set; } = new();
-        
+
         public class DeliveryCountryDto
         {
             public Guid ManufacturerId { get; set; }
-        
+
             [Required]
             public string CountryName { get; set; }
         }

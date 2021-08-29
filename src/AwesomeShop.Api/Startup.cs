@@ -68,8 +68,7 @@ namespace AwesomeShop.Api
             });
 
             services.AddAutoMapper(
-                typeof(ProductProfile).Assembly,
-                typeof(OrderProfile).Assembly
+                typeof(ProductProfile).Assembly
                 );
 
         }
