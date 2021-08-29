@@ -58,9 +58,35 @@ namespace AwesomeShop.BusinessLogic.Products.Services
             
         }
 
-        public Task<ProductViewModel> FindByIdProductAsync(Guid id, CancellationToken cancellationToken = default) =>
-            GetQueryable()
+        public async Task<ProductViewModel> FindByIdProductAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var result = await GetQueryable()
                 .FirstOrDefaultAsync(model => model.Id == id, cancellationToken);
+            return result;
+        }
+
+        public async Task<ProductImage> FindImageByIdAsync(Guid id, CancellationToken cancellationToken = default)
+        {
+            var image = await _context.Products.Where(p => p.Id == id).Select(p => new ProductImage
+            {
+                ImageBase64 = p.ImageBase64, ImageBase64Mime = p.ImageBase64Mime
+            }).FirstOrDefaultAsync(cancellationToken);
+            return image;
+        }
+
+        public async Task AddImageByIdAsync(Guid id, ProductImage image, CancellationToken cancellationToken = default)
+        {
+            var productToUpdate = await _context
+                .Products
+                .FirstOrDefaultAsync(product => product.Id == id, cancellationToken);
+            if (productToUpdate is null)
+                throw new ResourceNotFoundException();
+
+            productToUpdate.ImageBase64 = image.ImageBase64;
+            productToUpdate.ImageBase64Mime = image.ImageBase64Mime;
+            _context.Update(productToUpdate);
+            await _context.SaveChangesAsync(cancellationToken);
+        }
 
 
         public async Task CreateProductAsync(CreateProductRequest request, CancellationToken cancellationToken = default)
