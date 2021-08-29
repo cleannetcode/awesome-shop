@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 namespace AwesomeShop.Api.Controllers.Manufacturers
 {
     [ApiController]
-    [Route("api/v1/products")]
+    [Route("api/v1/manufacturers")]
     public class ManufacturerController : ControllerBase
     {
         private readonly IManufacturerService _service;
@@ -44,7 +44,7 @@ namespace AwesomeShop.Api.Controllers.Manufacturers
 
         [HttpGet]
         [ProducesResponseType(typeof(ManufacturerListViewModel), StatusCodes.Status200OK)]
-        public async Task<IActionResult> GetAllProducts([FromQuery] GetAllManufacturersRequest request,
+        public async Task<IActionResult> GetAllManufacturers([FromQuery] GetAllManufacturersRequest request,
             CancellationToken cancellationToken) =>
             Ok(await _service.GetAllManufacturersAsync(request, cancellationToken));
 

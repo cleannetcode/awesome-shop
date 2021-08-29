@@ -21,7 +21,7 @@ namespace AwesomeShop.BusinessLogic.Orders.Services
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
-        public async Task<OrderResponse> CreateAsync(Guid userId, NewOrderRequest newOrderRequest)
+        public async Task<Guid> CreateAsync(Guid userId, NewOrderRequest newOrderRequest)
         {
             if (newOrderRequest == null)
                 throw new ArgumentNullException(nameof(newOrderRequest), "Can't create empty order");
@@ -42,7 +42,7 @@ namespace AwesomeShop.BusinessLogic.Orders.Services
                 ProductOrders = productOrders
             });
 
-            return _mapper.Map<OrderResponse>(order.Entity);
+            return order.Entity.Id;
         }
     }
 }
