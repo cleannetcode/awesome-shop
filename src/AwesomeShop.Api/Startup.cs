@@ -1,7 +1,9 @@
 using System.Text;
 using AwesomeShop.Api.Shared;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
+using AwesomeShop.BusinessLogic.Manufacturer.Interfaces;
 using AwesomeShop.BusinessLogic.Manufacturer.Mapping;
+using AwesomeShop.BusinessLogic.Manufacturer.Services;
 using AwesomeShop.BusinessLogic.Products.Mapping;
 using AwesomeShop.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -29,6 +31,7 @@ namespace AwesomeShop.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ApplicationExceptionFilter>();
+            services.AddScoped<IManufacturerService, ManufacturerService>();
 
             services.AddControllers(options =>
                 options.Filters.Add<ApplicationExceptionFilter>());
