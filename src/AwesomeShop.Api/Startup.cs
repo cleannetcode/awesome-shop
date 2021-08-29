@@ -1,6 +1,6 @@
 using System.Text;
+using AwesomeShop.Api.Shared;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
-using AwesomeShop.BusinessLogic.Products.Extensions;
 using AwesomeShop.BusinessLogic.Products.Mapping;
 using AwesomeShop.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -27,20 +27,27 @@ namespace AwesomeShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<ApplicationExceptionFilter>();
+
+            services.AddControllers(options =>
+                options.Filters.Add<ApplicationExceptionFilter>());
+            
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
-                _configuration.GetConnectionString("DefaultConnection"), options =>
-                    options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery))
+                    _configuration.GetConnectionString("DefaultConnection"), options =>
+                        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery))
                 .EnableDetailedErrors()
                 .EnableSensitiveDataLogging()
             );
-            services.AddControllers();
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new()
-                        { Title = "AwesomeShop.Api", Version = "v1" });
+                    {
+                        Title = "AwesomeShop.Api", Version = "v1"
+                    });
                 })
                 .AddUserServices(_configuration)
-                .AddProductsCrudServices();
+                .AddProductsCrudServices()
+                .AddCategoriesCrudServices();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -48,7 +55,8 @@ namespace AwesomeShop.Api
                     _configuration.Bind(TokenIssuerOptions.Section, options);
                     var tokenOptions = new TokenIssuerOptions();
                     _configuration.Bind(TokenIssuerOptions.Section, tokenOptions);
-                    options.TokenValidationParameters.IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenOptions.Secret));
+                    options.TokenValidationParameters.IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.ASCII.GetBytes(tokenOptions.Secret));
                 });
             services.AddAuthorization(options =>
             {

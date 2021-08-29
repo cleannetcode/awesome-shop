@@ -1,11 +1,10 @@
 ﻿using AwesomeShop.BusinessLogic.Products.Interfaces;
 using AwesomeShop.BusinessLogic.Products.Services;
-using Microsoft.Extensions.DependencyInjection;
 using Sieve.Services;
 
-namespace AwesomeShop.BusinessLogic.Products.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
-    public static class ServiceCollectionExtensions
+    public static class ProductsServiceCollectionExtensions
     {
         public static IServiceCollection AddProductsCrudServices(this IServiceCollection serviceCollection) =>
             serviceCollection.AddScoped<IProductService, ProductService>()
