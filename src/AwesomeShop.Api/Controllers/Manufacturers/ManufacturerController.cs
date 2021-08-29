@@ -50,10 +50,10 @@ namespace AwesomeShop.Api.Controllers.Manufacturers
 
         [HttpGet("{manufacturerId:guid}")]
         [ProducesResponseType(typeof(ManufacturerListViewModel), StatusCodes.Status200OK)]
-        public async Task<IActionResult> FindManufacturer(Guid productId,
+        public async Task<IActionResult> FindManufacturer(Guid manufacturerId,
             CancellationToken cancellationToken)
         {
-            var result = (await _service.FindByIdManufacturerAsync(productId, cancellationToken));
+            var result = (await _service.FindByIdManufacturerAsync(manufacturerId, cancellationToken));
             if (result is null)
                 return NotFound();
             return Ok(result);
@@ -62,9 +62,9 @@ namespace AwesomeShop.Api.Controllers.Manufacturers
         [Authorize(Roles = "Admin")]
         [HttpDelete("{manufacturerId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
-        public async Task<IActionResult> Delete(Guid productId, CancellationToken cancellationToken)
+        public async Task<IActionResult> Delete(Guid manufacturerId, CancellationToken cancellationToken)
         {
-            await _service.DeleteManufacturerAsync(productId, cancellationToken);
+            await _service.DeleteManufacturerAsync(manufacturerId, cancellationToken);
             return NoContent();
         }
     }
