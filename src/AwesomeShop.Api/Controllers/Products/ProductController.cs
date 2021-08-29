@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using AwesomeShop.BusinessLogic.Products.Interfaces;
 using AwesomeShop.BusinessLogic.Products.Requests;
 using AwesomeShop.BusinessLogic.Products.Responses;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,7 +20,8 @@ namespace AwesomeShop.Api.Controllers.Products
         {
             _service = service;
         }
-
+        
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> CreateProduct(CreateProductRequest request, CancellationToken cancellationToken)
@@ -27,7 +29,8 @@ namespace AwesomeShop.Api.Controllers.Products
             await _service.CreateProductAsync(request, cancellationToken);
             return NoContent();
         }
-
+        
+        [Authorize(Roles = "Admin")]
         [HttpPut("{productId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> UpdateProduct([FromRoute] Guid productId, [FromBody] UpdateProductRequest request,
@@ -54,6 +57,7 @@ namespace AwesomeShop.Api.Controllers.Products
             return Ok(result);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{productId:guid}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         public async Task<IActionResult> Delete(Guid productId, CancellationToken cancellationToken)
