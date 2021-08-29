@@ -19,6 +19,8 @@ namespace AwesomeShop.Data.Models
         
         public Role Role { get; set; }
 
+        public DateTime? LockoutDate { get; set; }
+
         public List<Order> Orders { get; set; } = new();
     }
 }
