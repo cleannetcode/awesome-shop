@@ -4,7 +4,7 @@ using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.Data
 {
-    public class TestData
+    public class InitializationData
     {
         public User Admin { get; }
         
@@ -12,7 +12,7 @@ namespace AwesomeShop.Data
         
         public Role MemberRole { get; }
 
-        public TestData(IHasher hasher)
+        public InitializationData(IHasher hasher)
         {
             AdminRole = new()
             {

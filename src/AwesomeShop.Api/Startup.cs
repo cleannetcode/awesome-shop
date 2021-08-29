@@ -1,5 +1,7 @@
 using System.Text;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
+using AwesomeShop.BusinessLogic.Products.Extensions;
+using AwesomeShop.BusinessLogic.Products.Mapping;
 using AwesomeShop.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -25,16 +27,20 @@ namespace AwesomeShop.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    _configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(
+                _configuration.GetConnectionString("DefaultConnection"), options =>
+                    options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery))
+                .EnableDetailedErrors()
+                .EnableSensitiveDataLogging()
+            );
             services.AddControllers();
             services.AddSwaggerGen(c =>
                 {
                     c.SwaggerDoc("v1", new()
                         { Title = "AwesomeShop.Api", Version = "v1" });
                 })
-                .AddUserServices(_configuration);
+                .AddUserServices(_configuration)
+                .AddProductsCrudServices();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
@@ -48,6 +54,8 @@ namespace AwesomeShop.Api
             {
                 options.AddPolicy("Default", builder => builder.RequireAuthenticatedUser());
             });
+
+            services.AddAutoMapper(typeof(ProductProfile).Assembly);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

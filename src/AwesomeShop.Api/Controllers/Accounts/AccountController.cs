@@ -47,6 +47,7 @@ namespace AwesomeShop.Api.Controllers
 
         [Authorize]
         [HttpGet("me")]
+        [ProducesResponseType(typeof(UserResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> GetMe(CancellationToken cancellationToken = default)
         {
             var user = await _userService.GetMeAsync(User, cancellationToken);
