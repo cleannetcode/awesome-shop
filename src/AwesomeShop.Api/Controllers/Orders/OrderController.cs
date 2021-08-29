@@ -24,14 +24,11 @@ namespace AwesomeShop.Api.Controllers.Orders
 
         [Authorize]
         [HttpPost("create")]
-        [ProducesResponseType(typeof(OrderResponse), StatusCodes.Status200OK)]
         public async Task<IActionResult> Create(NewOrderRequest newOrderRequest, CancellationToken cancellationToken = default)
         {
             var userId = Guid.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value);
 
-            var createdOrder = await _orderService.CreateAsync(userId, newOrderRequest);
-
-            return Ok(createdOrder);
+            return Ok(await _orderService.CreateAsync(userId, newOrderRequest));
         }
     }
 }

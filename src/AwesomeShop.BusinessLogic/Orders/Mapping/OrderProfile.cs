@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using AwesomeShop.Api.Contracts;
 using AwesomeShop.BusinessLogic.Orders.Responses;
 using AwesomeShop.Data.Models;
 

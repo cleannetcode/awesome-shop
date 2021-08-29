@@ -1,7 +1,7 @@
 using System.Text;
 using AwesomeShop.Api.Shared;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
-using AwesomeShop.BusinessLogic.Manufacturer.Mapping;
+using AwesomeShop.BusinessLogic.Orders.Mapping;
 using AwesomeShop.BusinessLogic.Products.Mapping;
 using AwesomeShop.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -45,6 +45,8 @@ namespace AwesomeShop.Api
                     {
                         Title = "AwesomeShop.Api", Version = "v1"
                     });
+
+                    c.CustomSchemaIds(x => x.FullName);
                 })
                 .AddUserServices(_configuration)
                 .AddProductsCrudServices()
@@ -65,8 +67,9 @@ namespace AwesomeShop.Api
                 options.AddPolicy("Default", builder => builder.RequireAuthenticatedUser());
             });
 
-            services.AddAutoMapper(typeof(ProductProfile).Assembly); 
-            services.AddAutoMapper(typeof(ManufacturerProfile).Assembly);
+            services.AddAutoMapper(
+                typeof(ProductProfile).Assembly
+                );
 
         }
 
@@ -77,7 +80,10 @@ namespace AwesomeShop.Api
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "AwesomeShop.Api v1"));
+                app.UseSwaggerUI(c => {
+                    c.SwaggerEndpoint("/swagger/v1/swagger.json", "AwesomeShop.Api v1");
+                    c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
+                });
             }
 
             app.UseRouting();
