@@ -1,6 +1,7 @@
 using System.Text;
 using AwesomeShop.Api.Shared;
 using AwesomeShop.BusinessLogic.Accounts.Requests;
+using AwesomeShop.BusinessLogic.Orders.Mapping;
 using AwesomeShop.BusinessLogic.Products.Mapping;
 using AwesomeShop.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -64,7 +65,11 @@ namespace AwesomeShop.Api
                 options.AddPolicy("Default", builder => builder.RequireAuthenticatedUser());
             });
 
-            services.AddAutoMapper(typeof(ProductProfile).Assembly);
+            services.AddAutoMapper(
+                typeof(ProductProfile).Assembly,
+                typeof(OrderProfile).Assembly
+                );
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
