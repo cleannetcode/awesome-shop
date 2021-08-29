@@ -7,7 +7,7 @@ namespace AwesomeShop.BusinessLogic.Manufacturer.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddProductsCrudServices(this IServiceCollection serviceCollection) =>
+        public static IServiceCollection AddManufacturersCrudServices(this IServiceCollection serviceCollection) =>
             serviceCollection.AddScoped<IManufacturerService, ManufacturerService>()
                 .AddScoped<ISieveProcessor, SieveProcessor>();
     }
