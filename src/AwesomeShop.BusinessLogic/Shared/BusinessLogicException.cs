@@ -20,12 +20,12 @@ namespace AwesomeShop.BusinessLogic.Shared
 
     public class ValidationException : BusinessLogicException
     {
-        public ValidationException(string message)
+        public ValidationException(string validationMessage)
         {
-            Message = message;
+            ValidationMessage = validationMessage;
         }
         
-        public string Message { get; }
+        public string ValidationMessage { get; }
         
         public override ErrorType Type => ErrorType.Invalid;
 

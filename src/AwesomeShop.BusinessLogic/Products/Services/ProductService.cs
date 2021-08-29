@@ -55,6 +55,7 @@ namespace AwesomeShop.BusinessLogic.Products.Services
                 RequestedPageSize = model.PageSize ?? 10,
                 TotalCount = totalCount
             };
+            
         }
 
         public Task<ProductViewModel> FindByIdProductAsync(Guid id, CancellationToken cancellationToken = default) =>
