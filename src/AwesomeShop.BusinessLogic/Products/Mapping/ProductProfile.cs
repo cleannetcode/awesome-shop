@@ -10,13 +10,13 @@ namespace AwesomeShop.BusinessLogic.Products.Mapping
         public ProductProfile()
         {
             CreateMap<CreateProductRequest, Product>();
-            CreateMap<ProductRequestBase.DeliveryCountryDto, DeliveryCountry>();
+            CreateMap<ProductRequestBase.DeliveryCountryDto, Data.Models.DeliveryCountry>();
             CreateMap<UpdateProductRequest, Product>();
             CreateMap<ProductRequestBase, Product>();
 
             CreateMap<Product, ProductViewModel>();
             CreateMap<Category, ProductViewModel.CategoryDto>();
-            CreateMap<DeliveryCountry, ProductViewModel.DeliveryCountryDto>();
+            CreateMap<Data.Models.DeliveryCountry, ProductViewModel.DeliveryCountryDto>();
         }
     }
 }

@@ -1,18 +1,16 @@
 ﻿using AutoMapper;
 using AwesomeShop.Api.Contracts;
-using AwesomeShop.BusinessLogic.Accounts.Interfaces;
-using AwesomeShop.BusinessLogic.Orders.Other;
+using AwesomeShop.BusinessLogic.Orders.Interfaces;
 using AwesomeShop.BusinessLogic.Orders.Responses;
 using AwesomeShop.Data;
 using AwesomeShop.Data.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace AwesomeShop.BusinessLogic.Orders.Services
 {
-    public class OrderService
+    public class OrderService: IOrderService
     {
         private readonly ApplicationDbContext _dbContext;
         private readonly IMapper _mapper;

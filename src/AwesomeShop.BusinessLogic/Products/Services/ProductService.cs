@@ -142,7 +142,7 @@ namespace AwesomeShop.BusinessLogic.Products.Services
             var delivery = request
                 .DeliveryCountriesDtos
                 .Where(dto => manufacturers.ContainsKey(dto.ManufacturerId))
-                .Select(_mapper.Map<DeliveryCountry>)
+                .Select(_mapper.Map<Data.Models.DeliveryCountry>)
                 .Select(country =>
                 {
                     country.ProductId = newProduct.Id;
