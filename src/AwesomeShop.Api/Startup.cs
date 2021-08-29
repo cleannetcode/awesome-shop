@@ -47,7 +47,8 @@ namespace AwesomeShop.Api
                 })
                 .AddUserServices(_configuration)
                 .AddProductsCrudServices()
-                .AddCategoriesCrudServices();
+                .AddCategoriesCrudServices()
+                .AddOrdersServices();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

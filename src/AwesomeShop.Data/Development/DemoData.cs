@@ -7,6 +7,8 @@ namespace AwesomeShop.Data.Development
     {
         public List<Product> Products { get; }
 
+        public List<Order> Orders { get; }
+        
         public DemoData()
         {
             var firstManufacturer = new Manufacturer
@@ -44,88 +46,157 @@ namespace AwesomeShop.Data.Development
                 Name = "Eco"
             };
 
-            Products = new()
+            Product product1 = new()
             {
-                new()
+                Id = new("3fa85f64-5755-4577-b3fc-2c963f66afa7"),
+                Name = "PhoneRRU850",
+                Description = "Smart phone",
+                Categories =
                 {
-                    Id = new("3fa85f64-5755-4577-b3fc-2c963f66afa7"),
-                    Name = "PhoneRRU850",
-                    Description = "Smart phone",
-                    Categories =
-                    {
-                        ecoCategory, deviceCategory, phoneCategory
-                    },
-                    Cost = 450M,
-                    DeliveryCountries =
-                    {
-                        new()
-                        {
-                            CountryName = "Russia", Manufacturer = firstManufacturer
-                        },
-                        new()
-                        {
-                            CountryName = "Russia", Manufacturer = secondManufacturer
-                        },
-                    }
+                    ecoCategory, deviceCategory, phoneCategory
                 },
-                new()
+                Cost = 450M,
+                DeliveryCountries =
                 {
-                    Id = new("3fa85f64-5755-4577-b3fc-2c963f66afa8"),
-                    Name = "PhoneZRRU400",
-                    Description = "Home phone",
-                    Categories =
+                    new()
                     {
-                        phoneCategory
+                        CountryName = "Russia", Manufacturer = firstManufacturer
                     },
-                    Cost = 100M,
-                    DeliveryCountries =
+                    new()
                     {
-                        new()
-                        {
-                            CountryName = "Russia", Manufacturer = firstManufacturer
-                        },
-                        new()
-                        {
-                            CountryName = "Russia", Manufacturer = secondManufacturer
-                        },
-                    }
+                        CountryName = "Russia", Manufacturer = secondManufacturer
+                    },
+                }
+            };
+            Product product2 = new()
+            {
+                Id = new("3fa85f64-5755-4577-b3fc-2c963f66afa8"),
+                Name = "PhoneZRRU400",
+                Description = "Home phone",
+                Categories =
+                {
+                    phoneCategory
                 },
-                new()
+                Cost = 100M,
+                DeliveryCountries =
                 {
-                    Id = new("3fa85f64-5755-4577-b3fc-2c963f66afa9"),
-                    Name = "PhoneRRU810",
-                    Description = "Smart phone",
-                    Categories =
+                    new()
                     {
-                        deviceCategory, phoneCategory
+                        CountryName = "Russia", Manufacturer = firstManufacturer
                     },
-                    Cost = 450M,
-                    DeliveryCountries =
+                    new()
                     {
-                        new()
-                        {
-                            CountryName = "Russia", Manufacturer = firstManufacturer
-                        }
-                    }
+                        CountryName = "Russia", Manufacturer = secondManufacturer
+                    },
+                }
+            };
+            Product product3 = new()
+            {
+                Id = new("3fa85f64-5755-4577-b3fc-2c963f66afa9"),
+                Name = "PhoneRRU810",
+                Description = "Smart phone",
+                Categories =
+                {
+                    deviceCategory, phoneCategory
                 },
-                new()
+                Cost = 450M,
+                DeliveryCountries =
                 {
-                    Id = new("3fa85f64-5755-4577-b3fc-2c963f66afb1"),
-                    Name = "EcoBootsZU777",
-                    Description = "Boots",
-                    Categories =
+                    new()
                     {
-                        ecoCategory
-                    },
-                    Cost = 300M,
-                    DeliveryCountries =
-                    {
-                        new()
-                        {
-                            CountryName = "Russia", Manufacturer = secondManufacturer
-                        },
+                        CountryName = "Russia", Manufacturer = firstManufacturer
                     }
                 }
+            };
+            Product product4 = new()
+            {
+                Id = new("3fa85f64-5755-4577-b3fc-2c963f66afb1"),
+                Name = "EcoBootsZU777",
+                Description = "Boots",
+                Categories =
+                {
+                    ecoCategory
+                },
+                Cost = 300M,
+                DeliveryCountries =
+                {
+                    new()
+                    {
+                        CountryName = "Russia", Manufacturer = secondManufacturer
+                    },
+                }
+            };
+            Products = new()
+            {
+                product1,
+                product2,
+                product3,
+                product4
+            };
+
+            Order order1 = new()
+            {
+                Id = new("32285f64-5755-4577-b3fc-2c963f66afb1"),
+                Address = "Moscorsdaw",
+                UserId = IdManager.Admin,
+                ProductOrders =
+                {
+                    new()
+                    {
+                        Amount = 1, 
+                        DeliveryCountryId = product1.DeliveryCountries[0].Id,
+                    },
+                    new()
+                    {
+                        Amount = 1, 
+                        DeliveryCountryId = product2.DeliveryCountries[0].Id,
+                    },
+                    new()
+                    {
+                        Amount = 1, 
+                        DeliveryCountryId = product3.DeliveryCountries[0].Id,
+                    },
+                    new()
+                    {
+                        Amount = 1, 
+                        DeliveryCountryId = product4.DeliveryCountries[0].Id,
+                    }
+                }
+            };
+            
+            Order order2 = new()
+            {
+                Id = new("32285f77-5755-4577-b3fc-2c963f66afb1"),
+                Address = "Awaewae",
+                UserId = IdManager.Admin,
+                ProductOrders =
+                {
+                    new()
+                    {
+                        Amount = 2, 
+                        DeliveryCountryId = product1.DeliveryCountries[1].Id,
+                    },
+                    new()
+                    {
+                        Amount = 3, 
+                        DeliveryCountryId = product2.DeliveryCountries[1].Id,
+                    },
+                    new()
+                    {
+                        Amount = 4, 
+                        DeliveryCountryId = product3.DeliveryCountries[0].Id,
+                    },
+                    new()
+                    {
+                        Amount = 5, 
+                        DeliveryCountryId = product4.DeliveryCountries[0].Id,
+                    }
+                }
+            };
+
+            Orders = new()
+            {
+                order1, order2
             };
         }
     }

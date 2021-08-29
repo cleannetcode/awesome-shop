@@ -30,6 +30,7 @@ namespace AwesomeShop.Api
             {
                 var demoData = new DemoData();
                 context.AddRange(demoData.Products);
+                context.AddRange(demoData.Orders);
                 await context.SaveChangesAsync();
             }
         }

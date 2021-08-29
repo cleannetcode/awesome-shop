@@ -1,5 +1,4 @@
-﻿using System;
-using AwesomeShop.BusinessLogic.Accounts.Interfaces;
+﻿using AwesomeShop.BusinessLogic.Accounts.Interfaces;
 using AwesomeShop.Data.Models;
 
 namespace AwesomeShop.Data
@@ -28,7 +27,7 @@ namespace AwesomeShop.Data
 
             Admin = new()
             {
-                Id = new Guid("146c287c-7695-4e5f-873d-7a929e60e085"),
+                Id = IdManager.Admin,
                 BirthDate = new(2000, 1, 1),
                 Username = "admin",
                 RoleId = AdminRole.Id
